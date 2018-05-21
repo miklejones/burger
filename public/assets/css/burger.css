@@ -1,0 +1,26 @@
+body {
+    background-color: lightblue;
+}
+#toEat, #eaten{
+    border: 3px darkgreen solid;
+    border-radius: 5px;
+    margin: 10px 0 10px 0;
+    text-align: center;
+}
+
+#addBurger{
+    text-align: center;
+    border: 7px darkorchid solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+h2{
+    color: darkorange;
+}
+li{
+    color: #a8182b;
+}
+row{
+    margin: 0 auto;
+}
