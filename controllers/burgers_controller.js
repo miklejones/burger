@@ -10,38 +10,47 @@ router.get('/', (req, res) => {
         };
         console.log(hbsObject);
         res.render('index', hbsObject);
-    })
+    });
+});
+router.get('/api/burger', (req, res) => {
+    burger.all(data => {
+        console.log(`data: ${data}`);
+        res.json(data);
+    });
 });
 
 router.post('/api/burgers', (req, res) => {
+    console.log(`burger name: ${req.body.name}`);
     burger.create([
-        'burger_name', 'devoured'
+        'burger_name'
     ], [
-            req.body.burger_name, req.body.devoured
+            req.body.name
         ], result => {
-            res.json({ id: result.insertId });
+            res.json({ id: result.insertId })
         });
+
+
 });
 
 router.put('/api/burger/:id', (req, res) => {
-    const condition = `id = ${req.params.id}`;
+    const condition = `id=${req.params.id}`;
     console.log(`condition: ${condition}`);
+    console.log(`req.body: ${JSON.stringify(req.body.devoured)}`);
+    console.log({ devoured: req.body.devoured });
 
-    burger.update({
-        devoured: req.body.devoured
-    }, condition, result => {
-        if (result.changedRows === 0) {
+
+
+    burger.update({ devoured: req.body.devoured }, condition, result => {
+        console.log(`Changed Rows: ${result.changedRows}`);
+        if (result.affectedRows === 0) {
             return res.status(404).end();
         } else {
             res.status(200).end();
         }
-    })
-
+    });
 });
-
-router.delete('/api/burgers/:id', (req, res) => {
-    const condition = 'id = ' + req.params.id;
-
+router.delete('/api/burger/:id', (req, res) => {
+    const condition = `id=${req.params.id}`;
     burger.delete(condition, result => {
         if (result.affectedRows === 0) {
             return res.status(404).end();
@@ -49,6 +58,7 @@ router.delete('/api/burgers/:id', (req, res) => {
             res.status(200).end();
         }
     });
+
 });
 
 module.exports = router;
